@@ -8,9 +8,9 @@ import android.os.IBinder
 import android.os.Looper
 import android.os.Message
 
-class IncrementService : Service() {
+class IncrementService: Service() {
 
-    private inner class IncrementHandler(looper: Looper): Handler(looper){
+    private inner class IncrementHandler(looper: Looper): Handler(looper) {
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             msg.data.getInt("VALUE").also {
@@ -21,6 +21,7 @@ class IncrementService : Service() {
             stopSelf()
         }
     }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         intent?.getIntExtra("VALUE", -1)?.also { value ->
             HandlerThread("IncrementThread").apply {
@@ -35,5 +36,6 @@ class IncrementService : Service() {
         }
         return START_NOT_STICKY
     }
-    override fun onBind(intent: Intent): IBinder?  = null
+
+    override fun onBind(intent: Intent): IBinder? = null
 }

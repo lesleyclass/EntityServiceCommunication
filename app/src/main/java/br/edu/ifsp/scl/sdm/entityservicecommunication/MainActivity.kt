@@ -5,26 +5,21 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.os.HandlerThread
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import br.edu.ifsp.scl.sdm.entityservicecommunication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private val amb: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
-
     private lateinit var incrementServiceIntent: Intent
     private var counter = 0
     private val incrementBroadcastReceiver = object: BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             intent?.getIntExtra("VALUE", -1)?.also { value ->
                 counter = value
-                Toast.makeText(this@MainActivity, "You clicked $counter times", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "You clicked $counter times.", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -55,8 +50,9 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
         unregisterReceiver(incrementBroadcastReceiver)
     }
+
     override fun onDestroy() {
         super.onDestroy()
-        startService(incrementServiceIntent)
+        stopService(incrementServiceIntent)
     }
 }
